@@ -13,7 +13,7 @@ public abstract class AutoLoginStrategy extends RetryStrategy{
 
 	@Override
 	public <X> X process(HttpMgr httpMgr,ConnectApi<X> api, HttpResponse resp) {
-		if(isLoginFail(resp)){
+		if(!isLogin(resp)){
 			if(doLogin(httpMgr)){
 				try {
 					retry(httpMgr, api);
@@ -25,7 +25,7 @@ public abstract class AutoLoginStrategy extends RetryStrategy{
 		return null;
 	}
 
-	public abstract boolean isLoginFail(HttpResponse resp);
+	public abstract boolean isLogin(HttpResponse resp);
 	
 	public abstract boolean doLogin(HttpMgr httpMgr);
 }

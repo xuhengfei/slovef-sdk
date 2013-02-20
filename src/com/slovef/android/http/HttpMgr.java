@@ -20,7 +20,14 @@ public class HttpMgr {
 	
 	public HttpMgr(){
 	}
-	
+	/**
+	 * 执行一个Api请求
+	 * 当请求结果为null时，会触发执行 失败策略处理 FailStrategy
+	 * @param <X>
+	 * @param api
+	 * @return
+	 * @throws Exception
+	 */
 	public <X>X execute(ConnectApi<X> api) throws Exception{
 		if(api instanceof HttpMockable){
 			return ((HttpMockable<X>)api).mock();
@@ -43,7 +50,13 @@ public class HttpMgr {
 		}
 		return result;
 	}
-	
+	/**
+	 * 单纯的执行一次Api请求，不会触发 FailStrategy
+	 * @param <X>
+	 * @param api
+	 * @return
+	 * @throws Exception
+	 */
 	public <X>X executeOnce(ConnectApi<X> api) throws Exception{
 		if(api instanceof HttpMockable){
 			return ((HttpMockable<X>)api).mock();

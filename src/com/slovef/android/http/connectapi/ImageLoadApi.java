@@ -26,10 +26,14 @@ import android.graphics.BitmapFactory;
 public class ImageLoadApi implements ConnectApi<Bitmap>,HttpCacheable<Bitmap>{
 
 	private static ImageCache cache=new ImageCache();
-	
+	private boolean needCache=true;
 	private String url;
 	public ImageLoadApi(String url){
 		this.url=url;
+	}
+	public ImageLoadApi(String url,boolean needCache){
+		this.url=url;
+		this.needCache=needCache;
 	}
 	@Override
 	public HttpUriRequest getHttpRequest() {
@@ -62,7 +66,10 @@ public class ImageLoadApi implements ConnectApi<Bitmap>,HttpCacheable<Bitmap>{
 
 	@Override
 	public Bitmap getCache() {
-		return cache.get(url);
+		if(needCache){
+			return cache.get(url);
+		}
+		return null;
 	}
 
 	
