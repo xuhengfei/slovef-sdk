@@ -67,5 +67,9 @@ public class HttpMgr {
 		this.enableMock = enableMock;
 	}
 
+	public void setFailStrategy(FailStrategy failStrategy) {
+		this.failStrategy = failStrategy;
+	}
+
 	
 }
