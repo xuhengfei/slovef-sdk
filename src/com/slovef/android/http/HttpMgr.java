@@ -13,9 +13,10 @@ import com.slovef.android.http.strategy.FailStrategy;
 
 public class HttpMgr {
 
-	public static final int NOT_LOGIN=1001;
 	private Map<String, HttpClient> httpclientMap=new HashMap<String, HttpClient>();
 	private FailStrategy failStrategy;
+	
+	private boolean enableMock=false;
 	
 	public HttpMgr(){
 	}
@@ -24,7 +25,7 @@ public class HttpMgr {
 		if(api instanceof HttpMockable){
 			return ((HttpMockable<X>)api).mock();
 		}
-		if(api instanceof HttpCacheable){
+		if(enableMock && api instanceof HttpCacheable){
 			X ret=((HttpCacheable<X>)api).getCache();
 			if(ret!=null){
 				return ret;
@@ -47,7 +48,7 @@ public class HttpMgr {
 		if(api instanceof HttpMockable){
 			return ((HttpMockable<X>)api).mock();
 		}
-		if(api instanceof HttpCacheable){
+		if(enableMock && api instanceof HttpCacheable){
 			X ret=((HttpCacheable<X>)api).getCache();
 			if(ret!=null){
 				return ret;
@@ -60,6 +61,10 @@ public class HttpMgr {
 		HttpClient client=httpclientMap.get(request.getURI().getHost());
 		HttpResponse resp=client.execute(request);
 		return api.getResponseParser().parse(resp);
+	}
+
+	public void setEnableMock(boolean enableMock) {
+		this.enableMock = enableMock;
 	}
 
 	
